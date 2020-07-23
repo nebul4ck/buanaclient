@@ -1,0 +1,61 @@
+#!/bin/bash
+
+BUANAREPO_USER='buanarepo'
+LOG_DIR='/var/log/buanaclient'
+CONF_DIR="/etc/buanaclient"
+LIB_DIR="/usr/lib/python2.7/dist-packages/buanarepo_client"
+BIN_FILE="/usr/bin/buanarepo"
+#buanarepoServer_installed=`dpkg -l |grep buanarepo-server`
+
+case $1 in
+  # Includes cases for all valid arguments, exit 1 otherwise
+  # Debian
+  remove|purge)
+    dpkg -V buanarepo-server &>/dev/null
+    if [ "$?" != 0 ];then 
+      # no installed
+      if getent passwd "$BUANAREPO_USER" >/dev/null;then
+        echo -e "Deleting $BUANAREPO_USER user..."
+        userdel -r "$BUANAREPO_USER" && echo -e " ...OK"
+      fi
+
+      if [ -d ${LOG_DIR} ];then
+        echo -e "Deleting buanarepo base log dir..."
+        rm -rf ${LOG_DIR} && echo -e " ...OK"
+      fi
+
+      if [ -d $LIB_DIR ];then
+        echo -e "Cleaning Buanarepo-Client libs..."
+        rm -rf $LIB_DIR && echo -e " ...OK"
+      fi
+
+      if [ -d $CONF_DIR ];then
+        echo -e "Deleting $CONF_DIR..."
+        rm -rf $CONF_DIR && echo -e " ...OK"
+      fi
+    else
+      if [ -d ${LOG_DIR} ];then
+        echo -e "Deleting buanarepo client log dir..."
+        rm -rf ${LOG_DIR} && echo -e " ...OK"
+      fi      
+
+      if [ -d $CONF_DIR ];then
+        echo -e "Deleting $CONF_DIR..."
+        rm -rf $CONF_DIR && echo -e " ...OK"
+      fi
+
+      if [ -d $LIB_DIR ];then
+        echo -e "Cleaning Buanarepo-Client libs..."
+        rm -rf $LIB_DIR && echo -e " ...OK"
+      fi
+    fi
+  ;;
+  failed-upgrade|abort-install|abort-upgrade|disappear|upgrade|disappear)
+  ;;
+  *)
+    echo "post remove script called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
+exit 0

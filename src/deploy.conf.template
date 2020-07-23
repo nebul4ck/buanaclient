@@ -1,0 +1,20 @@
+################################################################
+#	      BUANAREPO-CLIENT TEMPLATE CONFIGURATION file     #
+#    This is a example config file for servers provisioning    #
+################################################################
+#
+# No modify section name (hosts)!!! Only add hosts and services.
+
+# Example
+#[hosts]
+#host1 = service1,
+#host2 = "service1","service2","serviceN"
+#...
+#hostN = 'service1',
+
+#IMPORTAN: if only one service will be installed, a ',' will be required at the end of the service
+
+[hosts]
+#smartsentinel-01 = 'kafka', 'zookeeper'
+#smartsentinel-02 = 'mongodb', 'elasticsearch'
+#smartsentinel-03 = 'logstash',

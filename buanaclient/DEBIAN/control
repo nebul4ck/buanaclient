@@ -1,0 +1,14 @@
+Package: buanaclient
+License: Apache 2.0
+Vendor: Nebul4ck-org
+Essential: no
+Section: main
+Version: 1.6.0
+Priority: optional
+Architecture: amd64
+Maintainer: nebul4ck <a.gonzalezmesas@gmail.com>
+Depends: python-configobj, python-requests, python-configparser
+Homepage: https://github.com/nebul4ck/buanaclient/
+Description: Buanarepo-client is an agent for buanarepo-server.
+  With it, is possible creates backups, building .deb packages
+  and deploying IT backend.

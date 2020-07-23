@@ -1,0 +1,38 @@
+#!/bin/bash
+
+BUANAREPO_USER='buanarepo'
+LOG_DIR='/var/log/buanaclient'
+
+case $1 in
+  # Debian
+  install|upgrade)
+
+    if ! getent passwd "$BUANAREPO_USER" >/dev/null;then
+      echo -e "Creating ${BUANAREPO_USER} user..."
+      useradd -r -s /bin/false $BUANAREPO_USER && echo "... OK"
+    fi
+
+    if [ ! -d ${LOG_DIR} ];then
+      mkdir -p ${LOG_DIR}
+      chown -R "${BUANAREPO_USER}":"${BUANAREPO_USER}" ${LOG_DIR}
+      touch ${LOG_DIR}/buanaclient.log
+      chmod 777 ${LOG_DIR}/buanaclient.log
+    else
+      chown -R "${BUANAREPO_USER}":"${BUANAREPO_USER}" ${LOG_DIR}
+      if [ ! -f ${LOG_DIR}/buanaclient.log ];then
+        touch ${LOG_DIR}/buanaclient.log
+        chmod 777 ${LOG_DIR}/buanaclient.log
+      else
+        chmod 777 ${LOG_DIR}/buanaclient.log
+      fi
+    fi
+  ;;
+    abort-deconfigure|abort-upgrade|abort-remove)
+  ;;
+  *)
+      echo "pre install script called with unknown argument \`$1'" >&2
+      exit 1
+  ;;
+esac
+
+exit 0
